@@ -64,7 +64,7 @@ func New(command string, options ...HeaderOption) *LogicPkt {
 	return pkt
 }
 
-// NewFrom new LogicPacket from a header
+// NewLogicPkt new LogicPacket from a header
 func NewLogicPkt(header *Header) *LogicPkt {
 	pkt := &LogicPkt{}
 	pkt.Header = Header{
@@ -132,6 +132,8 @@ func (p *LogicPkt) String() string {
 	return fmt.Sprintf("header:%v body:%dbits", &p.Header, len(p.Body))
 }
 
+// ServiceName
+// 这里涉及一个服务定位逻辑，
 func (h *Header) ServiceName() string {
 	arr := strings.SplitN(h.Command, ".", 2)
 	if len(arr) <= 1 {

@@ -1,9 +1,6 @@
 # gotalk
 分布式IM项目，即时通讯系统，允许两人或者多人使用网络实时的传递文字、图像、语言来交流。
 
-
-
-
 ## 核心功能：
 ### 一、通信服务
 通信服务是整个系统的`心脏`
@@ -47,7 +44,7 @@
     + 服务监控：比在线用户、请求时长、GC、占用内存、线程数、转发流量等。
 
 ## 技术栈
-+ 分布式唯一ID `github.com/bwmarrin/snowflake`
++ 分布式唯一Id `github.com/bwmarrin/snowflake`
 + rpc框架：grpc/rest
 + 序列化框架：json/protobuf
 + websocket：gobwas

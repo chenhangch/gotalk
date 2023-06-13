@@ -1,5 +1,6 @@
 package him
 
+// Session 会话
 type Session interface {
 	GetChannelId() string
 	GetGateId() string

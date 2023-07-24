@@ -15,6 +15,8 @@ type Naming interface {
 	Register(him.ServiceRegistration) error
 	Deregister(serviceID string) error
 
+	// Subscribe 订阅服务变更通知
 	Subscribe(serviceName string, callback func(services []him.ServiceRegistration)) error
+	// Unsubscribe 取消订阅服务变更通知
 	Unsubscribe(serviceName string) error
 }

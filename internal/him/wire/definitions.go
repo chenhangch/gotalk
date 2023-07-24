@@ -7,7 +7,7 @@ const (
 	AlgorithmHashSlots = "hashslots"
 )
 
-// Command a defined data type between client and chatServer
+// Command a defined data type between client and logicServer
 const (
 	// login
 	CommandLoginSignIn  = "login.signin"
@@ -32,7 +32,7 @@ const (
 
 // Meta Key of a packet
 const (
-	MetaDestServer   = "dest.chatServer"
+	MetaDestServer   = "dest.server"
 	MetaDestChannels = "dest.channels"
 )
 
@@ -73,9 +73,11 @@ const (
 	OfflineMessageStoreDays = 30 //days
 )
 
+type MessageType uint
+
 const (
-	MessageTypeText  = 1
-	MessageTypeImage = 2
-	MessageTypeVoice = 3
-	MessageTypeVideo = 4
+	MessageTypeText MessageType = iota + 1
+	MessageTypeImage
+	MessageTypeVoice
+	MessageTypeVideo
 )

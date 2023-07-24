@@ -47,6 +47,7 @@ func (ch *ClientMapImpl) Get(clientId string) (client him.Client, ok bool) {
 }
 
 // Services 返回服务列表
+// TODO: 优化kvs传参
 func (ch *ClientMapImpl) Services(kvs ...string) []him.Service {
 	kvLen := len(kvs)
 	if kvLen != 0 && kvLen != 2 {

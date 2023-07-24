@@ -21,7 +21,7 @@ func (s *ServerDemo) Start(id, protocol, addr string) {
 	switch protocol {
 	case "ws":
 		srv := websocket.NewServer(addr, service)
-		logger.Infof("Starting websocket chatServer %v", srv)
+		logger.Infof("Starting websocket logicServer %v", srv)
 	case "tcp":
 	default:
 		return
@@ -48,7 +48,7 @@ func NewServerHandler() him.Handler {
 
 // Receive default Listener
 func (s *ServerHandler) Receive(agent him.Agent, payload []byte) {
-	ack := string(payload) + " from chatServer "
+	ack := string(payload) + " from logicServer "
 	_ = agent.Push([]byte(ack))
 }
 

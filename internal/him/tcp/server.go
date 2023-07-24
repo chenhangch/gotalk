@@ -50,7 +50,7 @@ func NewServer(listen string, service him.ServiceRegistration) him.Server {
 
 func (s *Server) Start() error {
 	log := logger.WithFields(logger.Fields{
-		"module": "tcp.chatServer",
+		"module": "tcp.logicServer",
 		"listen": s.listen,
 		"id":     s.ServiceID(),
 	})
@@ -66,7 +66,7 @@ func (s *Server) Start() error {
 	if err != nil {
 		return err
 	}
-	log.Info("starting tcp chatServer")
+	log.Info("starting tcp logicServer")
 	for {
 		//step 2
 		rawconn, err := lst.Accept()
@@ -121,7 +121,7 @@ func (s *Server) Push(id string, data []byte) error {
 
 func (s *Server) Shutdown(ctx context.Context) error {
 	logger.WithFields(logger.Fields{
-		"module": "tcp.chatServer",
+		"module": "tcp.logicServer",
 		"id":     s.ServiceID(),
 	})
 	s.once.Do(func() {

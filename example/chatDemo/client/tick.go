@@ -29,7 +29,7 @@ func NewCmd(ctx context.Context) *cobra.Command {
 			return run(ctx, opts)
 		},
 	}
-	cmd.PersistentFlags().StringVarP(&opts.address, "address", "a", "ws://127.0.0.1:8000", "chatServer address")
+	cmd.PersistentFlags().StringVarP(&opts.address, "address", "a", "ws://127.0.0.1:8000", "logicServer address")
 	cmd.PersistentFlags().StringVarP(&opts.user, "user", "u", "", "user")
 	return cmd
 }

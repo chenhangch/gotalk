@@ -3,12 +3,13 @@ package consul
 import (
 	"errors"
 	"fmt"
+	"sync"
+	"time"
+
 	"github.com/chang144/gotalk/internal/him"
 	"github.com/chang144/gotalk/internal/him/naming"
 	"github.com/hashicorp/consul/api"
 	"github.com/klintcheng/kim/logger"
-	"sync"
-	"time"
 )
 
 const (

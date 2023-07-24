@@ -3,8 +3,8 @@ package main
 import (
 	"context"
 	"flag"
-	"github.com/chang144/gotalk/internal/him/services/chatServer"
 	"github.com/chang144/gotalk/internal/him/services/gateway"
+	"github.com/chang144/gotalk/internal/him/services/logicServer"
 	"github.com/spf13/cobra"
 )
 
@@ -21,7 +21,7 @@ func main() {
 	ctx := context.Background()
 
 	root.AddCommand(gateway.NewServerStartCmd(ctx, version))
-	root.AddCommand(chatServer.NewServerStartCmd(ctx, version))
+	root.AddCommand(logicServer.NewServerStartCmd(ctx, version))
 
 	if err := root.Execute(); err != nil {
 		return

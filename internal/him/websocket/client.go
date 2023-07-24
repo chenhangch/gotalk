@@ -152,7 +152,7 @@ func (c *Client) ping(conn net.Conn) error {
 	if err != nil {
 		return err
 	}
-	logger.Tracef("%s send ping to chatServer", c.id)
+	logger.Tracef("%s send ping to logicServer", c.id)
 	return wsutil.WriteClientMessage(conn, ws.OpPing, nil)
 }
 

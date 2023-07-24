@@ -108,7 +108,7 @@ func (c *Client) Close() {
 	})
 }
 
-// Connect to chatServer
+// Connect to logicServer
 func (c *Client) Connect(addr string) error {
 	_, err := url.Parse(addr)
 	if err != nil {

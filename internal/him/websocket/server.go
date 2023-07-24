@@ -69,7 +69,7 @@ func (s *Server) SetChannelMap(channelMap him.ChannelMap) {
 func (s *Server) Start() error {
 	mux := http.NewServeMux()
 	log := logger.WithFields(logger.Fields{
-		"module": "ws.chatServer",
+		"module": "ws.logicServer",
 		"listen": s.listen,
 		"id":     s.ServiceID(),
 	})
@@ -133,7 +133,7 @@ func (s *Server) Start() error {
 		}(channel)
 	})
 
-	log.Infoln("started chatServer")
+	log.Infoln("started logicServer")
 	return http.ListenAndServe(s.listen, mux)
 
 }
@@ -148,7 +148,7 @@ func (s *Server) Push(id string, data []byte) error {
 
 func (s *Server) Shutdown(ctx context.Context) error {
 	log := logger.WithFields(logger.Fields{
-		"module": "ws.chatServer",
+		"module": "ws.logicServer",
 		"id":     s.ServiceID(),
 	})
 	s.once.Do(func() {

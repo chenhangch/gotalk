@@ -18,7 +18,7 @@ func main() {
 	root := cobra.Command{
 		Use:     "chat",
 		Version: version,
-		Short:   "chat chatServer",
+		Short:   "chat logicServer",
 	}
 	ctx := context.Background()
 

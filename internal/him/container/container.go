@@ -55,7 +55,8 @@ type Container struct {
 
 var log = logger.WithFields(logger.Fields{"module": "container"})
 
-// Default Container
+// default Container
+// 单例模式
 var c = &Container{
 	state:    0,
 	selector: &HashSelector{},
@@ -66,8 +67,8 @@ func Default() *Container {
 	return c
 }
 
-// InitServer 初始化服务，由上层传入依赖服务
-func InitServer(srv him.Server, deps ...string) error {
+// Init 初始化服务，由上层传入依赖服务
+func Init(srv him.Server, deps ...string) error {
 	if !atomic.CompareAndSwapInt32(&c.state, stateUninitialized, stateInitialized) {
 		return errors.New("has Initialized")
 	}
@@ -90,6 +91,7 @@ func SetDialer(dialer him.Dialer) {
 }
 
 // SetSelector set a default selector
+// 用于上层业务注册一个自定义的服务路由器
 func SetSelector(selector Selector) {
 	c.selector = selector
 }
@@ -103,7 +105,7 @@ func SetServiceNaming(nm naming.Naming) {
 	c.Naming = nm
 }
 
-// Start chatServer
+// Start 启动容器
 // step1: 服务注册
 // step2：启动Server
 // step3：监听依赖服务
@@ -116,6 +118,7 @@ func Start() error {
 		return errors.New("has started")
 	}
 
+	// 启动服务Server
 	go func(src him.Server) {
 		err := src.Start()
 		if err != nil {
@@ -123,6 +126,7 @@ func Start() error {
 		}
 	}(c.Srv)
 
+	// 与依赖的服务建立连接
 	for service := range c.deps {
 		go func(service string) {
 			err := connectToService(service)
@@ -144,7 +148,6 @@ func Start() error {
 
 	log.Infoln("shutdown", <-c)
 	return shutdown()
-
 }
 
 func shutdown() error {
@@ -172,7 +175,7 @@ func shutdown() error {
 	return nil
 }
 
-// Push a message to chatServer
+// Push a message to gateway
 // 逻辑服务-消息下行
 func Push(server string, p *pkt.LogicPkt) error {
 	p.AddStringMeta(wire.MetaDestServer, server)
@@ -193,6 +196,7 @@ func connectToService(serviceName string) error {
 			}
 			log.WithField("func", "connectToService").Infof("Watch a new service: %v", service)
 			service.GetMeta()[KeyServiceState] = StateYoung
+			// delay 目的：新服务暂时不使用
 			go func(service him.ServiceRegistration) {
 				time.Sleep(delay)
 				service.GetMeta()[KeyServiceState] = StateAdult
@@ -227,7 +231,7 @@ func connectToService(serviceName string) error {
 
 // buildClient 构建客户端
 // 检测连接是否已经存在
-// 校验协议，服务之家只允许tcp协议
+// 校验协议，服务之间只允许tcp协议
 // 读取消息readLoop
 // 添加到客户端集合
 func buildClient(clients ClientMap, service him.ServiceRegistration) (him.Client, error) {
@@ -275,7 +279,7 @@ func buildClient(clients ClientMap, service him.ServiceRegistration) (him.Client
 	return cli, nil
 }
 
-// read Loop 服务间的消息读取，
+// read Loop 服务间的消息读取
 func readLoop(cli him.Client) error {
 	log := logger.WithFields(logger.Fields{
 		"module": "container",
@@ -305,6 +309,7 @@ func readLoop(cli him.Client) error {
 }
 
 // pushMessage 消息下行
+// 根据设计的定位规则，把消息通过Server写到指定的Channel
 // 消息通过网关服务器推送到channel
 func pushMessage(packet *pkt.LogicPkt) error {
 	server, _ := packet.GetMeta(wire.MetaDestServer)

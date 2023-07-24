@@ -20,16 +20,16 @@ var log = logger.WithFields(logger.Fields{
 	"pkg":     "serv",
 })
 
-// ChatHandler Chat Service Handler
-type ChatHandler struct {
+// LogicHandler Chat Service Handler
+type LogicHandler struct {
 	r          *him.Router
 	cache      him.SessionStorage
 	dispatcher *ChatServerDispatcher
 }
 
-// NewChatHandler creates a new ChatHandler
-func NewChatHandler(r *him.Router, cache him.SessionStorage) *ChatHandler {
-	return &ChatHandler{
+// NewLogicHandler creates a new LogicHandler
+func NewLogicHandler(r *him.Router, cache him.SessionStorage) *LogicHandler {
+	return &LogicHandler{
 		r:          r,
 		cache:      cache,
 		dispatcher: &ChatServerDispatcher{},
@@ -37,7 +37,7 @@ func NewChatHandler(r *him.Router, cache him.SessionStorage) *ChatHandler {
 }
 
 // Receive 回调到业务层
-func (h *ChatHandler) Receive(agent him.Agent, payload []byte) {
+func (h *LogicHandler) Receive(agent him.Agent, payload []byte) {
 	buf := bytes.NewBuffer(payload)
 	logicPkt, err := pkt.MustReadLogicPkt(buf)
 	if err != nil {
@@ -69,7 +69,7 @@ func (h *ChatHandler) Receive(agent him.Agent, payload []byte) {
 }
 
 // Accept  系统内部握手请求
-func (h *ChatHandler) Accept(conn him.Conn, timeout time.Duration) (string, error) {
+func (h *LogicHandler) Accept(conn him.Conn, timeout time.Duration) (string, error) {
 	log.Infoln("try enter chat handler")
 
 	_ = conn.SetReadDeadline(time.Now().Add(timeout))
@@ -88,11 +88,11 @@ func (h *ChatHandler) Accept(conn him.Conn, timeout time.Duration) (string, erro
 	return req.ServiceId, nil
 }
 
-func (h *ChatHandler) Disconnect(id string) error {
+func (h *LogicHandler) Disconnect(id string) error {
 	return nil
 }
 
-var _ him.Handler = (*ChatHandler)(nil)
+var _ him.Handler = (*LogicHandler)(nil)
 
 func RespErr(ag him.Agent, p *pkt.LogicPkt, status pkt.Status) error {
 	packet := pkt.NewLogicPkt(&p.Header)

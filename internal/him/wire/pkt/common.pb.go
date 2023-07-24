@@ -29,7 +29,7 @@ const (
 	Status_InvalidPacketBody Status = 101
 	Status_InvalidCommand    Status = 103
 	Status_Unauthorized      Status = 105
-	// chatServer
+	// logicServer
 	Status_SystemException Status = 300
 	Status_NotImplemented  Status = 301
 	// specific error

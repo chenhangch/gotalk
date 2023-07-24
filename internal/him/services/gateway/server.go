@@ -20,6 +20,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
+const DefaultPath = "../../internal/him/services/gateway/conf.yaml"
+
 // ServerStartOptions 服务器启动选项
 type ServerStartOptions struct {
 	config   string
@@ -37,7 +39,7 @@ func NewServerStartCmd(ctx context.Context, version string) *cobra.Command {
 			return RunServerStart(ctx, opts, version)
 		},
 	}
-	cmd.PersistentFlags().StringVarP(&opts.config, "config", "config", "conf.yaml", "Config file")
+	cmd.PersistentFlags().StringVarP(&opts.config, "config", "c", DefaultPath, "Config file")
 	cmd.PersistentFlags().StringVarP(&opts.protocol, "protocol", "p", "ws", "protocol of ws or tcp")
 
 	return cmd
@@ -85,7 +87,7 @@ func RunServerStart(ctx context.Context, opts *ServerStartOptions, version strin
 	srv.SetStateListener(handler)
 
 	// container 初始化
-	_ = container.InitServer(srv, wire.SNChat, wire.SNLogin)
+	_ = container.Init(srv, wire.SNChat, wire.SNLogin)
 	container.EnableMonitor(fmt.Sprintf(":%d", config.MonitorPort))
 
 	ns, err := consul.NewNaming(config.ConsulURL)

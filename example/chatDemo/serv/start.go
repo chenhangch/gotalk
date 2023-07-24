@@ -15,13 +15,13 @@ func NewServerStartCmd(ctx context.Context, version string) *cobra.Command {
 	opts := &ServerStartOptions{}
 	cmd := &cobra.Command{
 		Use:   "chat",
-		Short: "start a chat chatServer",
+		Short: "start a chat logicServer",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			return RunServerStart(ctx, opts, version)
 		},
 	}
-	cmd.PersistentFlags().StringVarP(&opts.id, "serverid", "i", "demo", "chatServer id")
-	cmd.PersistentFlags().StringVarP(&opts.listen, "listen", "l", ":8000", "listen address to chat chatServer")
+	cmd.PersistentFlags().StringVarP(&opts.id, "serverid", "i", "demo", "logicServer id")
+	cmd.PersistentFlags().StringVarP(&opts.listen, "listen", "l", ":8000", "listen address to chat logicServer")
 
 	return cmd
 }
